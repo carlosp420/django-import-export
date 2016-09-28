@@ -454,7 +454,8 @@ class Resource(six.with_metaclass(DeclarativeMetaclass)):
                     row_result.import_type = RowResult.IMPORT_TYPE_SKIP
                 else:
                     with transaction.atomic():
-                        self.save_instance(instance, using_transactions, dry_run)
+                        # self.save_instance(instance, using_transactions, dry_run)
+                        self.save_instance(instance, dry_run)
                     self.save_m2m(instance, row, using_transactions, dry_run)
                 diff.compare_with(self, instance, dry_run)
             row_result.diff = diff.as_html()

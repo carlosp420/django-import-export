@@ -261,7 +261,7 @@ class Resource(six.with_metaclass(DeclarativeMetaclass)):
         else:
             return (self.init_instance(row), True)
 
-    def save_instance(self, instance, using_transactions=True, dry_run=False):
+    def save_instance(self, instance, using_transactions=True, dry_run=False, **kwargs):
         """
         Takes care of saving the object to the database.
 
@@ -454,8 +454,7 @@ class Resource(six.with_metaclass(DeclarativeMetaclass)):
                     row_result.import_type = RowResult.IMPORT_TYPE_SKIP
                 else:
                     with transaction.atomic():
-                        # self.save_instance(instance, using_transactions, dry_run)
-                        self.save_instance(instance, dry_run)
+                        self.save_instance(instance, using_transactions, dry_run, **kwargs)
                     self.save_m2m(instance, row, using_transactions, dry_run)
                 diff.compare_with(self, instance, dry_run)
             row_result.diff = diff.as_html()

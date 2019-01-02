@@ -300,7 +300,7 @@ class Resource(six.with_metaclass(DeclarativeMetaclass)):
         if errors:
             raise ValidationError(errors)
 
-    def save_instance(self, instance, using_transactions=True, dry_run=False):
+    def save_instance(self, instance, using_transactions=True, dry_run=False, **kwargs):
         """
         Takes care of saving the object to the database.
 
@@ -519,7 +519,7 @@ class Resource(six.with_metaclass(DeclarativeMetaclass)):
                     row_result.import_type = RowResult.IMPORT_TYPE_SKIP
                 else:
                     self.validate_instance(instance, import_validation_errors)
-                    self.save_instance(instance, using_transactions, dry_run)
+                    self.save_instance(instance, using_transactions, dry_run, **kwargs)
                     self.save_m2m(instance, row, using_transactions, dry_run)
                     # Add object info to RowResult for LogEntry
                     row_result.object_id = instance.pk
